@@ -1,0 +1,40 @@
+% Deckblatt:
+\thispagestyle{empty}
+\sffamily
+%\put(-30,-685){\includegraphics[width=1.15\linewidth]{BG}}
+
+{\bfseries
+
+
+\vspace*{1cm}
+
+\def\thesis{\ifthenelse{\boolean{english}}{laboratory report}{laborbericht}}
+\textcolor{MSBlue}{\rmfamily\bfseries\huge\thesis.}%
+
+\vspace*{0.5cm}
+
+\textbf{\labtitle{ }(\labcode)}
+
+\labname
+
+\ifthenelse{\boolean{english}}{Lab}{Labor} \labnum
+
+\vspace*{10cm}
+
+\textcolor{gray}{\study}
+
+\def\termname{\ifthenelse{\boolean{english}}{semester}{Semester}}
+\textcolor{gray}{\term{ }\termname}
+
+\def\lecturername{\ifthenelse{\boolean{english}}{Responsible lecturer}{Lehrveranstaltungsleiter}}
+\textcolor{gray}{\lecturername: \lecturer}
+
+\def\groupname{\ifthenelse{\boolean{english}}{Group}{Jahrgang}}
+\textcolor{gray}{\groupname: \group}
+
+\def\authorname{\ifthenelse{\boolean{english}}{Author}{Verfasser}}
+\textcolor{gray}{\authorname: \student}
+
+\textcolor{gray}{\today}
+
+\newpage}

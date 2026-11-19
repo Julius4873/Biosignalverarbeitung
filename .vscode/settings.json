@@ -1,0 +1,38 @@
+{
+  "latex-workshop.latex.tools": [
+    {
+      "name": "latex",
+      "command": "latex",
+      "args": [
+        "-synctex=1",
+        "-interaction=nonstopmode",
+        "-file-line-error",
+        "%DOC%"
+      ]
+    },
+    {
+      "name": "bibtex",
+      "command": "bibtex",
+      "args": ["%DOCFILE%"]
+    },
+    {
+      "name": "dvips",
+      "command": "dvips",
+      "args": ["-Ppdf", "-o", "%DOCFILE%.ps", "%DOCFILE%.dvi"]
+    },
+    {
+      "name": "ps2pdf",
+      "command": "ps2pdf",
+      "args": ["-dALLOWPSTricksPDF", "%DOCFILE%.ps", "%DOCFILE%.pdf"]
+    }
+  ],
+  "latex-workshop.latex.recipes": [
+    {
+      "name": "LaTeX → BibTeX → dvips → PDF",
+      "tools": ["latex", "bibtex", "latex", "latex", "dvips", "ps2pdf"]
+    }
+  ],
+  "latex-workshop.latex.recipe.default": "first",
+  "latex-workshop.latex.autoBuild.run": "onSave",
+  "latex-workshop.view.pdf.viewer": "tab"
+}

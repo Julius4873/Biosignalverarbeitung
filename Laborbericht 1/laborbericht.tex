@@ -1,0 +1,81 @@
+% !TEX encoding = IsoLatin2  % notwendige Zeile f"ur Mac-Benutzer (muss als Kommentar stehen); Windos-Benutzer k"onnen die Zeile l"oschen.
+
+% LaTeX-Vorlage Version 3.0,  Juni 2010
+% erstellt von Dr. Andreas Drauschke und Dr. Susanne Teschl
+% Modifiziert von Dr. Andreas Mehrle (andreas.mehrle@mci.edu)
+
+\documentclass[a4paper,oneside,10pt]{article}%{scrreprt} 
+% F"ur kurze Arbeiten w"are auch die Dokumentklasse "scrartcl" ausreichend. In diesem Fall ist "section" die h"ochste Ebene ("chapter" gibt es dann nicht).
+% \documentclass[a4paper,bibtotoc,oneside]{scrbook}
+
+\usepackage{ifthen}
+\newboolean{english}
+%\setboolean{english}{true}		% auskommentieren fuer deutsche Version
+
+\input{definitions.tex}
+
+\def\labtitle{Automatisierung Labor}
+\def\labcode{MTM-B-5-ATR-ASA-LB}
+\def\labname{Design of a closed-loop system}
+\def\labnum{2}
+
+\def\study{Master Mechatronik}
+\def\term{2.}
+\def\lecturer{Andreas Mehrle}
+\def\group{MM 09 VZ}
+\def\student{Max Mustermann, Martina Musterfrau}
+
+\def\litname{literatur}
+
+\begin{document}
+
+%\layout
+
+% Kopf- und Fusszeilen initiieren
+\pagestyle{plain}
+
+\input{deckblatt.tex}
+
+\tableofcontents%\thispagestyle{empty}
+\listoffigures
+\listoftables
+
+\newpage
+
+% Kopf- und Fusszeilen initiieren
+\pagestyle{fancy}
+
+\section{Einleitung}
+
+Dieses Dokument stellt eine Vorlage zur Erstellung von Laborberichten in \LaTeX f"ur den Studiengang Mechatronik dar. Achten Sie darauf, dass Sie die jeweils aktuellste Version verwenden. Richtlinien k"onnen sich von Jahr zu Jahr "andern.
+
+\section{Versuchsbeschreibung}
+
+In den meisten F"allen wird es sich anbieten den jeweiligen Versuchsaufbau zu beschreiben. Dies sollte am Anfang jedes Berichtes passieren. Achten Sie darauf, dass falls die wiedergegebenen Bilder nicht die ihrigen sind die Qulle zu zitieren.
+
+\section{Vorausgehende Arbeiten}
+
+Normalerweise sind Sie dazu angehalten sich auf die Labor"ubungvorzubereiten. Diese Arbeit ist f"ur das Verst"andnis ihres Berichtes essentiell und sollte ebenfalls der eigentlichen Labordokumentation vorangestellt werden. Im Speziellen betrifft dies
+\begin{itemize}
+\item die Messstrategie
+\item allf"allige Berechnungen und Absch"atzungen
+\item von Ihnen angefertigte Skripte (Quellcode in den Anhang)
+\item vorab get"atigte Simulationen
+\end{itemize}
+Vergessen Sie nicht verwendete Literatur zu zitieren wie z.B.~Skripten, siehe \cite{meh10}.
+
+\section{Grafische Darstellung der Ergebnisse}
+
+Bzgl.~der grafischen Darstellung der Ergebnisse beachten Sie den diesbez"uglichen Leitfaden. Hier noch in K"urze due h"aufigsten Probleme aufgez"ahlt
+\begin{itemize}
+\item Jeder Graph muss vom Text referenziert werden. Falls nicht stellt dies seine Notwendigkeit in Frage.
+\item Kurven m"ussen auch nach einer schwarz-wei"s-Kopie unterscheidbar bleiben. Dies geschieht am besten durch Unterschiede im Linienstil (durchgezogen, strichliert, punktiert, $\ldots$).
+\item Werden mehrere Kurven in einen Graphen eingetragen, so ist entweder eine Legende einzuf"ugen (ab 3 Kurven) oder diese in der Bildunterschrift zu unterscheiden (2 Kurven).
+\item Die Achsen m"ussen beschriftet werden (\textit{Symbol}/Einheit).
+\item Schwarzer Hintergrund ist nicht zul"assig!
+\end{itemize}
+
+\bibliographystyle{IEEEtran}	
+\bibliography{Literatur}
+
+\end{document}
