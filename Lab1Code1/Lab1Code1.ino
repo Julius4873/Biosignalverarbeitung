@@ -40,7 +40,7 @@ void setup() {
     Serial.println("Not Connected. Please check connections and read the hookup guide.");
     while (1);
   }
-  accel.setScale(SCALE_2G);
+  accel.setScale(SCALE_4G);
   accel.setDataRate(ODR_200);
   
 }
