@@ -3,12 +3,8 @@ from dataclasses import dataclass
 from pathlib import Path
 import csv
 import numpy as np
-from reportlab.graphics.shapes import Drawing, Line, PolyLine, String, Rect
-from reportlab.graphics import renderPDF, renderSVG
-from reportlab.lib import colors
 
 AXES = ('X', 'Y', 'Z')
-COLORS = ('#245f92', '#d16b21', '#347c53')
 G0 = 9.80665
 
 @dataclass
@@ -144,100 +140,3 @@ def write_csv(path, rows):
         writer = csv.DictWriter(f, fieldnames=list(rows[0]))
         writer.writeheader()
         writer.writerows(rows)
-
-@dataclass
-class Figure:
-    svg_path: Path
-    pdf_path: Path
-
-    def _repr_svg_(self):
-        return self.svg_path.read_text(encoding='utf-8')
-
-def save_plot(path, title, panels, xlabel='Zeit (s)', width=500, panel_height=170):
-    """Vektorplots mit ReportLab; panels: title, xlim, ylim, ylabel, curves.
-
-    curve = (x, y, Legendentext, Farbe, Strichmuster oder None).
-    SVG wird im Notebook inline dargestellt, PDF in LaTeX eingebunden.
-    """
-    path = Path(path)
-    path.parent.mkdir(parents=True, exist_ok=True)
-    try:
-        import matplotlib.pyplot as plt
-    except ModuleNotFoundError as exc:
-        if exc.name != 'matplotlib':
-            raise
-    else:
-        import pandas as pd
-        fig, axes = plt.subplots(len(panels), 1, squeeze=False,
-                                 figsize=(width/72, (46+len(panels)*panel_height)/72),
-                                 layout='constrained')
-        fig.suptitle(title)
-        for panel, ax in zip(panels, axes[:, 0]):
-            for x, y, label, color, _ in panel['curves']:
-                frame = pd.DataFrame({'Zeit': x, label: y})
-                frame.plot(x='Zeit', y=label, ax=ax, color=color, linestyle='-', linewidth=1)
-            ax.set(xlim=panel['xlim'], ylim=panel['ylim'], xlabel=xlabel,
-                   ylabel=panel.get('ylabel', 'a (g)'), title=panel.get('title', ''))
-            ax.grid(alpha=.25)
-        svg, pdf = path.with_suffix('.svg'), path.with_suffix('.pdf')
-        fig.savefig(svg)
-        fig.savefig(pdf)
-        plt.close(fig)
-        return Figure(svg, pdf)
-    height = 46 + len(panels)*panel_height
-    d = Drawing(width, height)
-    d.add(String(width/2, height-17, title, textAnchor='middle', fontName='Helvetica-Bold', fontSize=11))
-    for n,p in enumerate(panels):
-        left, right = 58, width-16
-        bottom = height-36-(n+1)*panel_height+34
-        top = bottom+panel_height-67
-        xmin,xmax=p['xlim']; ymin,ymax=p['ylim']
-        tx=lambda x: left+(x-xmin)/(xmax-xmin)*(right-left)
-        ty=lambda y: bottom+(y-ymin)/(ymax-ymin)*(top-bottom)
-        for x in np.linspace(xmin,xmax,5):
-            d.add(Line(tx(x),bottom,tx(x),top,strokeColor=colors.HexColor('#dddddd'),strokeWidth=.4))
-            d.add(String(tx(x),bottom-12,f'{x:g}',textAnchor='middle',fontSize=8))
-        for y in np.linspace(ymin,ymax,5):
-            d.add(Line(left,ty(y),right,ty(y),strokeColor=colors.HexColor('#dddddd'),strokeWidth=.4))
-            d.add(String(left-6,ty(y)-3,f'{y:.3g}',textAnchor='end',fontSize=8))
-        d.add(Rect(left,bottom,right-left,top-bottom,fillColor=None,strokeColor=colors.black,strokeWidth=.6))
-        d.add(String(left,top+19,p.get('title',''),fontName='Helvetica-Bold',fontSize=9))
-        d.add(String(4,(top+bottom)/2,p.get('ylabel','a (g)'),fontSize=8))
-        d.add(String((left+right)/2,bottom-27,xlabel,textAnchor='middle',fontSize=9))
-        for k,(xx,yy,label,color,dash) in enumerate(p['curves']):
-            xx,yy=np.asarray(xx),np.asarray(yy)
-            mask=(xx>=xmin)&(xx<=xmax)
-            points=[]
-            for x,y in zip(xx[mask],yy[mask]):
-                points.extend((tx(float(x)),ty(float(np.clip(y,ymin,ymax)))))
-            kw={'strokeColor':colors.HexColor(color),'strokeWidth':.9}
-            if dash: kw['strokeDashArray']=dash
-            if len(points)>=4: d.add(PolyLine(points,**kw))
-            lx=left+k*(right-left)/max(len(p['curves']),1)
-            d.add(Line(lx,top+7,lx+15,top+7,**kw))
-            d.add(String(lx+19,top+4,label,fontSize=8))
-    svg=path.with_suffix('.svg'); pdf=path.with_suffix('.pdf')
-    renderSVG.drawToFile(d,str(svg))
-    renderPDF.drawToFile(d,str(pdf))
-    return Figure(svg,pdf)
-
-def accel_panel(record, title='', start=0, end=None):
-    end=record.t[-1] if end is None else end
-    mask=(record.t>=start)&(record.t<=end)
-    if not mask.any(): raise ValueError('Leeres Zeitfenster.')
-    lim=max(1.2,float(np.max(np.abs(record.g[mask])))*1.12)
-    return {'title':title, 'xlim':(start,end), 'ylim':(-lim,lim), 'ylabel':'a (g)',
-            'curves':[(record.t,record.g[:,j],a,COLORS[j],None) for j,a in enumerate(AXES)]}
-
-def plot_timing(record,path,title):
-    dt=np.diff(record.t_ms)
-    s=timing(record)
-    time=record.t[1:]
-    f=1000/dt
-    panels=[{'title':f"Mittel {s['dt_Mittel_ms']:.4f} ms; SD {s['dt_SD_ms']:.4f} ms",
-             'xlim':(0,record.t[-1]),'ylim':(float(dt.min()-1),float(dt.max()+1)),
-             'ylabel':'dt (ms)','curves':[(time,dt,'Abtastintervall','#245f92',None)]},
-            {'title':f"Mittel {s['fi_Mittel_Hz']:.4f} Hz; SD {s['fi_SD_Hz']:.4f} Hz",
-             'xlim':(0,record.t[-1]),'ylim':(float(f.min()-.1),float(f.max()+.1)),
-             'ylabel':'f (Hz)','curves':[(time,f,'1 / dt','#347c53',None)]}]
-    return save_plot(path,title,panels)

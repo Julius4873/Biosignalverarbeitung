@@ -1,13 +1,14 @@
-"""Erstellt die Diagramme und Kennwerte für Labor 1."""
-from pathlib import Path
+"""Auswertung und Diagramme für Labor 1."""
 
 
 def main():
     from pathlib import Path
     import json
     import numpy as np
-    from lab1 import (AXES, COLORS, load_record, load_mobile, timing, butterworth_lowpass, orientation_table,
-                      write_csv, save_plot, accel_panel, plot_timing)
+    import pandas as pd
+    import matplotlib.pyplot as plot
+    from lab1 import (AXES, load_record, load_mobile, timing, butterworth_lowpass, orientation_table,
+                      write_csv)
 
     BASE = Path(__file__).resolve().parent
     DATA = BASE / 'daten'
@@ -25,22 +26,40 @@ def main():
     for row in inventory:
         print(f"{row['Datei']}: N={row['N']}, Dauer={row['Dauer_s']:.3f} s, fs_eff={row['fs_eff_Hz']:.4f} Hz")
 
-    fig4 = save_plot(RESULT/'aufgabe4', 'Aufgabe 4: Beschleunigung, Bereich +/-2 g',
-                     [accel_panel(a4, 'Rohdaten: 1024 Counts/g', 4, 8)])
+
+    df = pd.DataFrame(a4.g, columns=['X', 'Y', 'Z'])
+    df['Time'] = a4.t
+    df.plot(x='Time', y=['X', 'Y', 'Z'], ylabel='Beschleunigung in g',
+            xlabel='Zeit in s', figsize=[8, 6], title='Aufgabe 4: Beschleunigung bei ±2 g',
+            xlim=(4, 8), linestyle='-')
+    plot.savefig(RESULT/'aufgabe4.pdf', bbox_inches='tight')
+    plot.savefig(RESULT/'aufgabe4.svg', bbox_inches='tight')
+    plot.show()
     for j,a in enumerate(AXES):
         n = int(np.count_nonzero((a4.raw[:,j] == -2048) | (a4.raw[:,j] == 2047)))
         print(f'{a}: Min={a4.g[:,j].min():.4f} g, Max={a4.g[:,j].max():.4f} g, Grenzcodes={n}')
 
-    panels = [accel_panel(a4, '+/-2 g; langsame Aufnahme', 4, 8),
-              accel_panel(a5fast, '+/-4 g; schnellere Aufnahme', 4, 8)]
-    # Gleiche y-Skala ermöglicht direkten Amplitudenvergleich.
-    for p in panels: p['ylim'] = (-4.5, 4.5)
-    fig5 = save_plot(RESULT/'aufgabe5', 'Aufgabe 5: Messbereich und Aufzeichnungsrate', panels)
+    fig, axes = plot.subplots(2, 1, figsize=[8, 6], sharex=True, sharey=True,
+                             layout='constrained')
+    for ax, record, title in zip(axes, (a4, a5fast), ('±2 g / 12,70 Hz', '±4 g / 101,49 Hz')):
+        df = pd.DataFrame(record.g, columns=['X', 'Y', 'Z'])
+        df['Time'] = record.t
+        df.plot(x='Time', y=['X', 'Y', 'Z'], ax=ax, ylabel='Beschleunigung in g',
+                xlabel='Zeit in s', title=title, xlim=(4, 8), ylim=(-4.5, 4.5), linestyle='-')
+    fig.savefig(RESULT/'aufgabe5.pdf')
+    fig.savefig(RESULT/'aufgabe5.svg')
+    plot.show()
     for r in (a5slow,a5fast):
         print(r.name, 'max |a| =', round(float(np.abs(r.g).max()),4), 'g')
 
-    fig6 = save_plot(RESULT/'aufgabe6', 'Aufgabe 6: gesamte zusammenhaengende Aufnahme',
-                     [accel_panel(a6, 'Reihenfolge: -Z, +Z, -Y, +Y, -X, +X')], panel_height=210)
+    df = pd.DataFrame(a6.g, columns=['X', 'Y', 'Z'])
+    df['Time'] = a6.t
+    df.plot(x='Time', y=['X', 'Y', 'Z'], ylabel='Beschleunigung in g',
+            xlabel='Zeit in s', figsize=[8, 6], title='Aufgabe 6: Sechs Orientierungen',
+            linestyle='-')
+    plot.savefig(RESULT/'aufgabe6.pdf', bbox_inches='tight')
+    plot.savefig(RESULT/'aufgabe6.svg', bbox_inches='tight')
+    plot.show()
     orientations = orientation_table(a6)
     write_csv(RESULT/'orientierungen.csv', orientations)
     for row in orientations:
@@ -51,18 +70,34 @@ def main():
     filter_order = 4
     fs = timing(a6)["fs_eff_Hz"]
     filtered = butterworth_lowpass(a6.g, cutoff_hz, fs, filter_order)
-    panels = []
-    for j,a in enumerate(AXES):
-        panels.append({'title':a+'-Achse', 'xlim':(0,a6.t[-1]), 'ylim':(-1.35,1.35), 'ylabel':'a (g)',
-                       'curves':[(a6.t,a6.g[:,j],'Ungefiltert','#586580',None),
-                                 (a6.t,filtered[:,j],'Butterworth, 0.5 Hz',COLORS[j],None)]})
-    fig7 = save_plot(RESULT/'aufgabe7', 'Aufgabe 7: Rohdaten und Butterworth-Tiefpass', panels)
-    print(f"Effektive Abtastrate: {fs:.4f} Hz")
+    fig, axes = plot.subplots(3, 1, figsize=[8, 8], sharex=True, layout='constrained')
+    for j, axis in enumerate(['X', 'Y', 'Z']):
+        df = pd.DataFrame({'Time': a6.t, 'Ungefiltert': a6.g[:, j],
+                           'Butterworth, 0,5 Hz': filtered[:, j]})
+        df.plot(x='Time', y=['Ungefiltert', 'Butterworth, 0,5 Hz'], ax=axes[j],
+                ylabel='Beschleunigung in g', xlabel='Zeit in s', title=axis,
+                color=['tab:blue', 'tab:orange'], linestyle='-')
+    fig.savefig(RESULT/'aufgabe7.pdf')
+    fig.savefig(RESULT/'aufgabe7.svg')
+    plot.show()
+    print(f'Effektive Abtastrate: {fs:.4f} Hz')
+
 
     stats6 = timing(a6)
     for key,value in stats6.items(): print(f'{key}: {value:.6f}')
     write_csv(RESULT/'abtastfrequenz.csv', [{'Messung':'stationaer', **stats6}])
-    fig8 = plot_timing(a6, RESULT/'aufgabe8', 'Aufgabe 8: Abtastintervalle und lokale Frequenz')
+    dt_ms = np.diff(a6.t_ms)
+    df = pd.DataFrame({'Time': a6.t[1:], 'Intervall in ms': dt_ms,
+                       'Frequenz in Hz': 1000 / dt_ms})
+    fig, axes = plot.subplots(2, 1, figsize=[8, 5], sharex=True, layout='constrained')
+    df.plot(x='Time', y='Intervall in ms', ax=axes[0], ylabel='Intervall in ms',
+            xlabel='Zeit in s', color='tab:blue', linestyle='-', legend=False)
+    df.plot(x='Time', y='Frequenz in Hz', ax=axes[1], ylabel='Frequenz in Hz',
+            xlabel='Zeit in s', color='tab:green', linestyle='-', legend=False)
+    fig.savefig(RESULT/'aufgabe8.pdf')
+    fig.savefig(RESULT/'aufgabe8.svg')
+    plot.show()
+
 
     mobile, segment_starts = load_mobile(DATA/'ACC_Data_Aufgabe1.9_8g.200.txt')
     stats9 = timing(mobile)
@@ -72,7 +107,18 @@ def main():
     print('stationaer:', stats6)
     print('mobil:', stats9)
     print(f"Differenz fs_eff: {stats9['fs_eff_Hz']-stats6['fs_eff_Hz']:+.4f} Hz")
-    fig9 = plot_timing(mobile, RESULT/'aufgabe9', 'Aufgabe 9: mobile Abtastfrequenz')
+    dt_ms = np.diff(mobile.t_ms)
+    df = pd.DataFrame({'Time': mobile.t[1:], 'Intervall in ms': dt_ms,
+                       'Frequenz in Hz': 1000 / dt_ms})
+    fig, axes = plot.subplots(2, 1, figsize=[8, 5], sharex=True, layout='constrained')
+    df.plot(x='Time', y='Intervall in ms', ax=axes[0], ylabel='Intervall in ms',
+            xlabel='Zeit in s', color='tab:blue', linestyle='-', legend=False)
+    df.plot(x='Time', y='Frequenz in Hz', ax=axes[1], ylabel='Frequenz in Hz',
+            xlabel='Zeit in s', color='tab:green', linestyle='-', legend=False)
+    fig.savefig(RESULT/'aufgabe9.pdf')
+    fig.savefig(RESULT/'aufgabe9.svg')
+    plot.show()
+
 
     assert all(np.all(np.diff(r.t_ms)>0) for r in records)
     assert np.isclose(a6.ms2[0,2], a6.raw[0,2]/1024*9.80665)

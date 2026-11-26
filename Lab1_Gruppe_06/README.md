@@ -16,4 +16,4 @@ die ersten zehn Sekunden des letzten zusammenhängenden Abschnitts aus.
 
 Alternativ erzeugt `python main.py` dieselben Plots und Kennwerte.
 Mit den installierten Abhängigkeiten nutzt die Auswertung SciPy und Matplotlib.
-Ohne diese Bibliotheken stehen NumPy und ReportLab als Alternativen bereit.
+Die Diagramme entstehen über die direkten DataFrame-Aufrufe von Pandas und Matplotlib.
