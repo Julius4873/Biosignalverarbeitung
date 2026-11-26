@@ -1,18 +1,39 @@
 \clearpage
 \subsection{Temperaturbestimmung -- Aufgabe 2}
 
-Die Berechnung der Temperatur aus dem ADC-Wert ist in Abbildung~\ref{fig:aufgabe2_temperatur} dargestellt.
+Gegeben sind ein ADC-Messwert von $N=520$, eine Aufl\"osung von
+$n=10\,\mathrm{Bit}$ und eine maximale ADC-Eingangsspannung von
+$U_{\mathrm{ADC,max}}=5\,\mathrm{V}$. Der lineare Temperatursensor liefert bei
+$T_{\max}=40\,^\circ\mathrm{C}$ eine Spannung von
+$U_{\mathrm{Sensor,max}}=3{,}3\,\mathrm{V}$. Gesucht ist die zum Messwert
+geh\"orende Temperatur $T$.
 
-\begin{figure}[H]
-    \centering
-    \includegraphics[
-        width=0.86\linewidth,
-        keepaspectratio,
-        trim=60pt 81pt 34pt 57pt,
-        clip
-    ]{abbildungen/aufgabe2_temperatur.eps}
-    \caption{Handschriftliche Berechnung der Temperatur aus dem ADC-Wert 520.}
-    \label{fig:aufgabe2_temperatur}
-\end{figure}
+Zun\"achst wird der ADC-Messwert in eine Eingangsspannung umgerechnet. Ein
+$n$-Bit-ADC besitzt $2^n$ Abstufungen; der gr\"o{\ss}te darstellbare Messwert
+ist daher $N_{\max}=2^n-1$. Anschlie{\ss}end wird die Spannung anhand der
+linearen Kennlinie des Sensors in eine Temperatur umgerechnet:
 
-Aus dem ADC-Wert 520 ergibt sich zun"achst eine Spannung von etwa $2{,}54\,\mathrm{V}$. Daraus folgt f"ur den gegebenen linearen Sensor eine Temperatur von ungef"ahr $30{,}8\,^\circ\mathrm{C}$.
+\begin{align*}
+N_{\max}
+    &= 2^n - 1
+     = 2^{10} - 1
+     = 1023, \\
+U_{\mathrm{Sensor}}
+    &= \frac{N}{N_{\max}}\,U_{\mathrm{ADC,max}} \\
+    &= \frac{520}{1023}\cdot 5\,\mathrm{V}
+     = 2{,}5415\,\mathrm{V}
+     \approx 2{,}54\,\mathrm{V}, \\
+T
+    &= \frac{U_{\mathrm{Sensor}}}{U_{\mathrm{Sensor,max}}}\,T_{\max} \\
+    &= \frac{2{,}5415\,\mathrm{V}}{3{,}3\,\mathrm{V}}
+       \cdot 40\,^\circ\mathrm{C}
+     = 30{,}806\ldots\,^\circ\mathrm{C}
+     \approx 30{,}8\,^\circ\mathrm{C}.
+\end{align*}
+
+\noindent\textbf{Ergebnis:}
+\[
+    \boxed{T \approx 30{,}8\,^\circ\mathrm{C}}
+\]
+Der ADC-Messwert 520 entspricht somit einer Temperatur von etwa
+$30{,}8\,^\circ\mathrm{C}$.
