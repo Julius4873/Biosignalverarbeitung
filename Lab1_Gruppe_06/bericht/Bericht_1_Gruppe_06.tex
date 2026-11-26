@@ -17,10 +17,6 @@
 \pagestyle{plain}
 \input{deckblatt.tex}
 \normalfont
-\tableofcontents
-\listoffigures
-\listofformeln
-\clearpage
 \pagestyle{plain}
 
 \section{Messsystem (Aufgabe 1)}
@@ -215,24 +211,19 @@ Ursachen nicht. Der ruhende Sensor liefert wegen der Stützkraft kein Nullsignal
 jede Achse mit eigener Rohsignal- und Filterkurve.}
 \label{fig:a7}\end{figure}
 
-Ein zentrierter gleitender Mittelwert über sieben Samples (etwa 0,55 s)
-reduziert schnelle Schwankungen und erhält die konstanten $\pm1$-$g$-Lagewerte.
-Dieser Tiefpass ist für den Orientierungstest geeignet, weil ein Bandpass
-oder Hochpass die hierfür wichtige Gleichkomponente unterdrücken würde.
-
-\textbf{Implementierung:} Für $M=7$ wird achsenweise
+Jede Achse wird mit einem Butterworth-Tiefpass vierter Ordnung und
+einer Grenzfrequenz von $0{,}5$ Hz gefiltert. Bezogen auf die effektive
+Abtastfrequenz $f_s=12{,}6935$ Hz lautet die normierte Grenzfrequenz
 \begin{equation}
-y[k]=\frac{1}{7}\sum_{j=-3}^{3}x[k+j]\formeleintrag{Zentrierter gleitender Mittelwert}
+W_n = \frac{f_c}{f_s/2} \approx 0{,}0788.
+\formeleintrag{Normierte Grenzfrequenz des Butterworth-Tiefpasses}
 \end{equation}
-berechnet. Die Randbehandlung spiegelt jeweils drei Messwerte. Die Filterung
-erfolgt nach Sampleindex; angesichts des geringen Zeitjitters wird die
-Zeitbasis dabei näherungsweise als gleichmäßig angesehen.
-
-\textbf{Grenzen:} Der Filter glättet auch reale schnelle Änderungen und
-verbreitert die Drehübergänge (Abb.~\ref{fig:a7}). Als zentrierter Offline-Filter
-benötigt er zukünftige Messwerte und ist daher nicht unmittelbar ein kausaler
-Echtzeitfilter. Die Statistik der ruhigen Lagen und die Abtastfrequenz werden
-aus ungefilterten Originaldaten berechnet.
+Der Filter dämpft schnelle Schwankungen und behält die stationären Lagewerte
+bei. Der Vorwärts- und Rückwärtslauf mit \texttt{filtfilt} vermeidet eine
+Phasenverschiebung. Dabei wird der Betrag des Frequenzgangs quadriert.
+An den Drehübergängen werden auch schnelle Signaländerungen geglättet
+(Abb.~\ref{fig:a7}). Die Auswertung der Ruhelagen und der Abtastfrequenz
+erfolgt mit den Originaldaten.
 \clearpage
 
 \section{Abtastfrequenz und Streuung (Aufgabe 8)}
@@ -329,5 +320,11 @@ abgerufen 26.11.2026. \url{https://github.com/sparkfun/Qwiic_OpenLog}.
 \url{https://www.wch-ic.com/downloads/CH340DS1_PDF.html}.
 \end{thebibliography}
 \endgroup
+\clearpage
+\tableofcontents
+\addcontentsline{toc}{section}{Abbildungsverzeichnis}
+\listoffigures
+\addcontentsline{toc}{section}{Formelverzeichnis}
+\listofformeln
 \end{document}
 

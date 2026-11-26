@@ -76,18 +76,48 @@ def load_mobile(path):
     window = segment[segment[:, 3] - segment[0, 3] <= 10000]
     return Record(Path(path).name, window[:, 3], window[:, :3], 8, 'g'), starts + 1
 
-def smooth(record, window=7):
-    """Zentrierter gleitender Mittelwert; DC bleibt erhalten, Randwerte gespiegelt.
+def butterworth_lowpass(values, cutoff_hz, fs, order=4):
+    """Digitaler Butterworth-Tiefpass und Vorwärts-/Rückwärtsfilterung."""
+    if not 0 < cutoff_hz < fs / 2:
+        raise ValueError('Grenzfrequenz muss zwischen null und der Nyquist-Frequenz liegen.')
+    try:
+        from scipy.signal import butter, filtfilt
+    except ModuleNotFoundError as exc:
+        if exc.name != 'scipy':
+            raise
+        return _butterworth_numpy(values, cutoff_hz, fs, order)
+    b, a = butter(order, cutoff_hz / (fs / 2), btype='lowpass')
+    return filtfilt(b, a, values, axis=0)
 
-    Wegen des geringen Zeitjitters in Aufgabe 6 Filterung nach Sampleindex.
-    Nicht fuer Echtzeit: je window//2 zukuenftige Samples werden verwendet.
-    """
-    if window < 3 or window % 2 != 1 or window > len(record.t):
-        raise ValueError('Filterfenster muss ungerade sein und zur Datenlaenge passen.')
-    pad = window // 2
-    padded = np.pad(record.g, ((pad,pad),(0,0)), mode='reflect')
-    return np.column_stack([np.convolve(padded[:,i], np.ones(window)/window, mode='valid')
-                            for i in range(3)])
+
+def _butterworth_numpy(values, cutoff_hz, fs, order):
+    """Offline-Alternative: bilineare Transformation und ungerade Randfortsetzung."""
+    k = np.arange(order)
+    poles = np.exp(1j * np.pi * (2*k + order + 1)/(2*order))
+    warped = np.tan(np.pi * cutoff_hz/fs)
+    a = np.poly((1 + warped*poles)/(1 - warped*poles)).real
+    b = np.poly(-np.ones(order))
+    b *= a.sum()/b.sum()
+    pad = 3*len(a)
+    if len(values) <= pad:
+        raise ValueError('Zu wenige Messwerte für die Filterung.')
+    padded = np.concatenate((2*values[:1]-values[pad:0:-1], values,
+                             2*values[-1:]-values[-2:-pad-2:-1]), axis=0)
+    companion_t = np.zeros((order, order))
+    companion_t[:, 0] = -a[1:]
+    companion_t[:-1, 1:] = np.eye(order-1)
+    zi = np.linalg.solve(np.eye(order)-companion_t, b[1:]-a[1:]*b[0])
+
+    def run(samples):
+        state = zi[:, None] * samples[0]
+        output = np.empty_like(samples, dtype=float)
+        for i, sample in enumerate(samples):
+            output[i] = b[0]*sample + state[0]
+            state = (np.vstack((state[1:], np.zeros_like(state[:1])))
+                     + b[1:, None]*sample - a[1:, None]*output[i])
+        return output
+
+    return run(run(padded)[::-1])[::-1][pad:-pad]
 
 def orientation_table(record):
     """Explizite ruhige Innenfenster; für die Mittelwerte der sechs Lagen."""
@@ -131,6 +161,29 @@ def save_plot(path, title, panels, xlabel='Zeit (s)', width=500, panel_height=17
     """
     path = Path(path)
     path.parent.mkdir(parents=True, exist_ok=True)
+    try:
+        import matplotlib.pyplot as plt
+    except ModuleNotFoundError as exc:
+        if exc.name != 'matplotlib':
+            raise
+    else:
+        import pandas as pd
+        fig, axes = plt.subplots(len(panels), 1, squeeze=False,
+                                 figsize=(width/72, (46+len(panels)*panel_height)/72),
+                                 layout='constrained')
+        fig.suptitle(title)
+        for panel, ax in zip(panels, axes[:, 0]):
+            for x, y, label, color, _ in panel['curves']:
+                frame = pd.DataFrame({'Zeit': x, label: y})
+                frame.plot(x='Zeit', y=label, ax=ax, color=color, linestyle='-', linewidth=1)
+            ax.set(xlim=panel['xlim'], ylim=panel['ylim'], xlabel=xlabel,
+                   ylabel=panel.get('ylabel', 'a (g)'), title=panel.get('title', ''))
+            ax.grid(alpha=.25)
+        svg, pdf = path.with_suffix('.svg'), path.with_suffix('.pdf')
+        fig.savefig(svg)
+        fig.savefig(pdf)
+        plt.close(fig)
+        return Figure(svg, pdf)
     height = 46 + len(panels)*panel_height
     d = Drawing(width, height)
     d.add(String(width/2, height-17, title, textAnchor='middle', fontName='Helvetica-Bold', fontSize=11))
