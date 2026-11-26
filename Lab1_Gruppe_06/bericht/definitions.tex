@@ -1,0 +1,32 @@
+% PDF-kompatible Auswahl aus der vorhandenen MCI-Vorlage (Version 3.0).
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage[utf8]{inputenc}
+\usepackage[ngerman]{babel}
+\usepackage{graphicx}
+\usepackage[tmargin=1in,bmargin=1in,lmargin=1.25in,rmargin=1.25in]{geometry}
+\usepackage{xcolor,float,amsmath,amssymb,array}
+\usepackage{url}
+\definecolor{MSBlue}{rgb}{.204,.353,.541}
+\definecolor{MSLightBlue}{rgb}{.31,.506,.741}
+\setlength{\parindent}{0pt}
+\setlength{\emergencystretch}{3em}
+\setlength{\parskip}{1ex plus .2ex minus .2ex}
+\setlength{\headheight}{14pt}
+\newcommand{\offen}[1]{\textcolor{MSBlue}{\textbf{Offen:} #1}}
+
+
+
+% Layout der gelieferten Vorlage, mit PDF-kompatiblen Paketen.
+\usepackage{ifthen}
+\newboolean{english}
+\renewcommand{\contentsname}{Inhaltsverzeichnis}
+\renewcommand{\listfigurename}{Abbildungsverzeichnis}
+\renewcommand{\listtablename}{Tabellenverzeichnis}
+\makeatletter
+\renewcommand{\section}{\@startsection{section}{1}{0pt}{-2.3ex plus -.5ex}{1ex}{\normalfont\Large\bfseries\color{MSBlue}}}
+\renewcommand{\subsection}{\@startsection{subsection}{2}{0pt}{-1.8ex plus -.4ex}{.7ex}{\normalfont\large\sffamily\bfseries}}
+\newcommand{\formeleintrag}[1]{\addcontentsline{frm}{figure}{\protect\numberline{\theequation}#1}}
+\newcommand{\formeleintragalign}[1]{\addcontentsline{frm}{figure}{\protect\numberline{\number\numexpr\value{equation}+1\relax}#1}}
+\newcommand{\listofformeln}{\section*{Formelverzeichnis}\@starttoc{frm}}
+\makeatother

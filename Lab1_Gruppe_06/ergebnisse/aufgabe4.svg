@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE svg
+  PUBLIC '-//W3C//DTD SVG 1.0//EN'
+  'http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd'>
+<svg width="500" height="216" preserveAspectRatio="xMinYMin meet" viewBox="0 0 500 216" xmlns="http://www.w3.org/2000/svg" version="1.0" fill-rule="evenodd" xmlns:xlink="http://www.w3.org/1999/xlink">
+	<title>...</title>
+	<desc>...</desc>
+	<clipPath id="clip">
+		<rect x="0" y="0" width="500" height="216"/>
+	</clipPath>
+	<g id="group" transform="scale(1,-1) translate(0,-216)" style="clip-path: url(#clip)">
+		<g transform="">
+			<text x="137.987" y="199" style="font-family: Helvetica-Bold; font-size: 11px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,398) scale(1,-1)">Aufgabe 4: Beschleunigung, Bereich +/-2 g</text>
+			<path d="M 58,44 L 58,147 Z" style="stroke: rgb(86%,86%,86%); stroke-linecap: butt; stroke-width: 0.4;"/>
+			<text x="56.0" y="32" style="font-family: Times-Roman; font-size: 8px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,64) scale(1,-1)">4</text>
+			<path d="M 164.5,44 L 164.5,147 Z" style="stroke: rgb(86%,86%,86%); stroke-linecap: butt; stroke-width: 0.4;"/>
+			<text x="162.5" y="32" style="font-family: Times-Roman; font-size: 8px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,64) scale(1,-1)">5</text>
+			<path d="M 271,44 L 271,147 Z" style="stroke: rgb(86%,86%,86%); stroke-linecap: butt; stroke-width: 0.4;"/>
+			<text x="269.0" y="32" style="font-family: Times-Roman; font-size: 8px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,64) scale(1,-1)">6</text>
+			<path d="M 377.5,44 L 377.5,147 Z" style="stroke: rgb(86%,86%,86%); stroke-linecap: butt; stroke-width: 0.4;"/>
+			<text x="375.5" y="32" style="font-family: Times-Roman; font-size: 8px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,64) scale(1,-1)">7</text>
+			<path d="M 484,44 L 484,147 Z" style="stroke: rgb(86%,86%,86%); stroke-linecap: butt; stroke-width: 0.4;"/>
+			<text x="482.0" y="32" style="font-family: Times-Roman; font-size: 8px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,64) scale(1,-1)">8</text>
+			<path d="M 58,44 L 484,44 Z" style="stroke: rgb(86%,86%,86%); stroke-linecap: butt; stroke-width: 0.4;"/>
+			<text x="35.336" y="41.0" style="font-family: Times-Roman; font-size: 8px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,82) scale(1,-1)">-2.24</text>
+			<path d="M 58,69.75 L 484,69.75 Z" style="stroke: rgb(86%,86%,86%); stroke-linecap: butt; stroke-width: 0.4;"/>
+			<text x="35.336" y="66.75" style="font-family: Times-Roman; font-size: 8px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,133) scale(1,-1)">-1.12</text>
+			<path d="M 58,95.5 L 484,95.5 Z" style="stroke: rgb(86%,86%,86%); stroke-linecap: butt; stroke-width: 0.4;"/>
+			<text x="48.0" y="92.5" style="font-family: Times-Roman; font-size: 8px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,185) scale(1,-1)">0</text>
+			<path d="M 58,121.25 L 484,121.25 Z" style="stroke: rgb(86%,86%,86%); stroke-linecap: butt; stroke-width: 0.4;"/>
+			<text x="38.0" y="118.25" style="font-family: Times-Roman; font-size: 8px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,236) scale(1,-1)">1.12</text>
+			<path d="M 58,147 L 484,147 Z" style="stroke: rgb(86%,86%,86%); stroke-linecap: butt; stroke-width: 0.4;"/>
+			<text x="38.0" y="144.0" style="font-family: Times-Roman; font-size: 8px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,288) scale(1,-1)">2.24</text>
+			<rect x="58" y="44" width="426" height="103" style="stroke: rgb(0%,0%,0%); stroke-linecap: butt; stroke-width: 0.6; fill: none; fill-rule: evenodd;"/>
+			<text x="58" y="166" style="font-family: Helvetica-Bold; font-size: 9px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,332) scale(1,-1)">Rohdaten: 1024 Counts/g</text>
+			<text x="4" y="95.5" style="font-family: Times-Roman; font-size: 8px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,191) scale(1,-1)">a (g)</text>
+			<text x="257.878" y="17" style="font-family: Times-Roman; font-size: 9px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,34) scale(1,-1)">Zeit (s)</text>
+			<polyline points="59.704 109.4204, 68.1175 107.6691, 76.531 106.4342, 84.7315 55.10846, 93.145 107.1078, 101.5585 111.2615, 109.972 110.8124, 118.3855 112.2494, 126.799 60.94604, 135.2125 104.9748, 143.5195 108.41, 151.933 103.2685, 160.24 115.6621, 168.6535 69.6575, 177.067 103.1113, 185.4805 116.9868, 193.7875 95.79188, 202.201 120.8261, 210.6145 73.99077, 219.028 87.48456, 227.4415 126.282, 235.855 105.4463, 244.0555 119.3443, 252.469 94.75908, 260.8825 82.58997, 269.296 124.6654, 277.7095 111.0818, 286.123 116.2234, 294.5365 69.99428, 302.737 75.7196, 311.1505 121.2302, 319.564 113.7761, 327.9775 116.2009, 336.391 68.6696, 344.8045 86.29459, 353.1115 125.1594, 361.525 116.1785, 369.9385 119.3667, 378.352 56.56785, 386.659 104.6381, 395.0725 124.845, 403.486 117.3685, 411.793 109.3979, 420.2065 61.86658, 428.62 107.7365, 437.0335 122.8243, 445.447 114.3374, 453.8605 113.1699, 462.1675 56.0739, 470.4745 96.64506, 478.888 119.9954" style="stroke: rgb(14%,37%,57%); stroke-linecap: butt; stroke-width: 0.9; fill: None; fill-rule: evenodd;"/>
+			<path d="M 58,154 L 73,154 Z" style="stroke: rgb(14%,37%,57%); stroke-linecap: butt; stroke-width: 0.9;"/>
+			<text x="77.0" y="151" style="font-family: Times-Roman; font-size: 8px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,302) scale(1,-1)">X</text>
+			<polyline points="59.704 126.4167, 68.1175 126.5963, 76.531 65.63855, 84.7315 49.51786, 93.145 63.86482, 101.5585 125.4737, 109.972 130.3683, 118.3855 66.98568, 126.799 49.51786, 135.2125 60.5419, 143.5195 126.8433, 151.933 136.4079, 160.24 72.711, 168.6535 49.51786, 177.067 52.84079, 185.4805 109.0836, 193.7875 141.4597, 202.201 99.09235, 210.6145 49.51786, 219.028 49.51786, 227.4415 100.5517, 235.855 141.4597, 244.0555 100.8436, 252.469 49.51786, 260.8825 49.51786, 269.296 91.07691, 277.7095 141.4597, 286.123 101.7642, 294.5365 49.51786, 302.737 49.51786, 311.1505 101.0232, 319.564 141.4597, 327.9775 97.36353, 336.391 49.51786, 344.8045 49.87709, 353.1115 115.011, 361.525 137.9571, 369.9385 71.94762, 378.352 49.51786, 386.659 58.72327, 395.0725 126.5514, 403.486 133.781, 411.793 66.02024, 420.2065 49.51786, 428.62 59.95814, 437.0335 126.4841, 445.447 136.0038, 453.8605 64.78537, 462.1675 49.51786, 470.4745 53.13266, 478.888 111.3064" style="stroke: rgb(81%,41%,12%); stroke-linecap: butt; stroke-width: 0.9; fill: None; fill-rule: evenodd;"/>
+			<path d="M 200,154 L 215,154 Z" style="stroke: rgb(81%,41%,12%); stroke-linecap: butt; stroke-width: 0.9;"/>
+			<text x="219.0" y="151" style="font-family: Times-Roman; font-size: 8px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,302) scale(1,-1)">Y</text>
+			<polyline points="59.704 96.15111, 68.1175 94.33248, 76.531 104.9524, 84.7315 133.7586, 93.145 93.12006, 101.5585 89.393, 109.972 88.83169, 118.3855 100.7763, 126.799 131.5807, 135.2125 98.28408, 143.5195 86.15988, 151.933 102.7072, 160.24 100.1027, 168.6535 120.1525, 177.067 101.9887, 185.4805 88.27039, 193.7875 92.9629, 202.201 89.48281, 210.6145 133.2646, 219.028 119.0075, 227.4415 88.00096, 235.855 86.83344, 244.0555 96.26338, 252.469 124.9124, 260.8825 114.2027, 269.296 86.9457, 277.7095 98.21672, 286.123 99.94554, 294.5365 121.0282, 302.737 109.7572, 311.1505 87.08042, 319.564 86.8559, 327.9775 94.01815, 336.391 127.5393, 344.8045 110.5654, 353.1115 78.00972, 361.525 96.5328, 369.9385 100.8661, 378.352 132.3441, 386.659 98.08201, 395.0725 75.98902, 403.486 93.65892, 411.793 106.0076, 420.2065 133.0177, 428.62 100.5293, 437.0335 79.08743, 445.447 97.20637, 453.8605 103.8073, 462.1675 134.3872, 470.4745 107.1976, 478.888 81.51227" style="stroke: rgb(20%,48%,32%); stroke-linecap: butt; stroke-width: 0.9; fill: None; fill-rule: evenodd;"/>
+			<path d="M 342,154 L 357,154 Z" style="stroke: rgb(20%,48%,32%); stroke-linecap: butt; stroke-width: 0.9;"/>
+			<text x="361.0" y="151" style="font-family: Times-Roman; font-size: 8px;fill: rgb(0%,0%,0%); stroke:none;" transform="translate(0,302) scale(1,-1)">Z</text>
+		</g>
+	</g>
+</svg>
