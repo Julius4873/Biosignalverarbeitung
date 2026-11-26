@@ -18,7 +18,12 @@
 \input{deckblatt.tex}
 \normalfont
 \pagestyle{plain}
-
+\tableofcontents
+\addcontentsline{toc}{section}{Abbildungsverzeichnis}
+\listoffigures
+\addcontentsline{toc}{section}{Formelverzeichnis}
+\listofformeln
+\clearpage
 \section{Messsystem (Aufgabe 1)}
 Abbildung~\ref{fig:system} unterscheidet die stationäre serielle Aufnahme vom
 mobilen Speicherpfad. Der Aufbau folgt der vorhandenen Versuchsdokumentation
@@ -138,7 +143,7 @@ verändern das Signal ebenfalls.
 \textbf{Zeitliche Einordnung:} Eine Erhöhung des Messbereichs löst das
 Sättigungsproblem, erhöht jedoch nicht automatisch die Zahl gespeicherter
 Messpunkte. Diese beiden Ursachen werden in Aufgabe 5 getrennt betrachtet.
-\clearpage
+
 
 \section{Messbereich und Datenrate anpassen (Aufgabe 5)}
 \textbf{Messbereich.} Das Register \texttt{XYZ\_DATA\_CFG} (Adresse
@@ -168,7 +173,7 @@ höhere Datenrate mehr Messpunkte pro Bewegung auf. Einzelne Spitzen
 erreichen weiterhin $-4\,g$. Für solche Bewegungen bietet $\pm8\,g$ mehr
 Reserve. Da die Handbewegungen separat ausgeführt wurden und beide
 Einstellungen geändert wurden, lassen sich die Verläufe nur qualitativ vergleichen.
-\clearpage
+
 
 \section{Sechs Orientierungen (Aufgabe 6)}
 Die Datei \texttt{ACC\_Data\_Aufgabe1.6\_2g.12.txt} enthält 790 Messwerte
@@ -202,7 +207,7 @@ nicht exakt senkrechte Ausrichtung erklären; die Daten allein trennen diese
 Ursachen nicht. Der ruhende Sensor liefert wegen der Stützkraft kein Nullsignal.
 
 
-\clearpage
+
 
 \section{Filtervergleich (Aufgabe 7)}
 \begin{figure}[H]\centering
@@ -261,7 +266,7 @@ unterscheiden. Berechnung und Abbildung~\ref{fig:a8} entstehen im Notebook ohne
 fest eingetragene Abtastfrequenz.
 \clearpage
 
-\section{Mobile Messung und Reproduzierbarkeit (Aufgaben 9--10)}
+\section{Mobile Messung und Reproduzierbarkeit (Aufgaben 9)}
 \subsection*{Aufgabe 9: Mobile Messung}
 \texttt{Lab1Code2} setzt $\pm8\,g$ und 200 Hz Sensor-ODR. Die drei
 Beschleunigungen sind nach Division durch 256 bereits in $g$ gespeichert.
@@ -288,18 +293,7 @@ begrenzen die gespeicherte Rate. Die Zeitstempel werden erst nach der
 Punkt wirken sich auf die gemessenen Intervalle aus. Die einzelnen Einflüsse
 lassen sich aus dieser Aufnahme allein nicht quantifizieren.
 
-\subsection*{Aufgabe 10: Ausführbarkeit}
-Die Datei \texttt{MainCode1.ipynb} arbeitet die verlangten Aufgaben der Reihe
-nach ab. Alle acht Codezellen wurden in einem frischen Python-Prozess
-zellenweise ausgeführt; die Auswertung zu 4--9 und die eingebetteten
-Abbildungen stammen aus diesem Durchlauf. Geprüft werden streng steigende
-Zeitstempel, Rohwertgrenzen, Umrechnung, Filterdimensionen und vorhandene
-Plotexporte. Ein interaktiver Jupyter-Kerneldurchlauf und ein Hardwaretest
-des neuen Arduino-Sketches wurden hier nicht durchgeführt.
 
-Originaldaten, Hilfsbibliothek \texttt{lab1.py}, Abhängigkeiten und modifizierter
-Sketch liegen bei. Alle Pfade sind relativ; die Auswertung benötigt keinen
-Netzzugriff. Die Angabe zum SPI-Takt ist im Abschnitt zum Messsystem erläutert.
 
 \begingroup\small
 \begin{thebibliography}{9}
@@ -320,11 +314,5 @@ abgerufen 26.11.2026. \url{https://github.com/sparkfun/Qwiic_OpenLog}.
 \url{https://www.wch-ic.com/downloads/CH340DS1_PDF.html}.
 \end{thebibliography}
 \endgroup
-\clearpage
-\tableofcontents
-\addcontentsline{toc}{section}{Abbildungsverzeichnis}
-\listoffigures
-\addcontentsline{toc}{section}{Formelverzeichnis}
-\listofformeln
 \end{document}
 
