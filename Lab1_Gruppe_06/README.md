@@ -13,3 +13,7 @@ Das Archiv enthält beide Arduino-Sketches in ihren jeweiligen Sketch-Ordnern.
 GitHub-Datenbasis: 0e878e9c892acd65b4d91fb24b0a2f1dd0da02fe.
 Die Daten zu Aufgabe 9 enthalten zwei Zeitrücksprünge. Das Notebook wertet
 die ersten zehn Sekunden des letzten zusammenhängenden Abschnitts aus.
+
+Alternativ erzeugt `python main.py` dieselben Plots und Kennwerte.
+Mit den installierten Abhängigkeiten nutzt die Auswertung SciPy und Matplotlib.
+Ohne diese Bibliotheken stehen NumPy und ReportLab als Alternativen bereit.
